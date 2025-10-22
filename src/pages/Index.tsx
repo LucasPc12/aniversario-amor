@@ -24,6 +24,20 @@ const Index = () => {
       setShowMessage(true);
     }, 1000);
 
+    // Try to autoplay music
+    const playMusic = async () => {
+      if (audioRef.current) {
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+        } catch (error) {
+          console.log('Autoplay prevented. User needs to click play.');
+        }
+      }
+    };
+    
+    playMusic();
+
     return () => clearTimeout(timer);
   }, []);
 
