@@ -115,8 +115,8 @@ const Index = () => {
                   )}
                 </Button>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Lisboa</p>
-                  <p className="text-xs text-muted-foreground">Música Especial</p>
+                  <p className="text-sm font-semibold text-foreground">Música Secreta</p>
+                  <p className="text-xs text-muted-foreground">segredooooo</p>
                 </div>
               </div>
               <Music className="h-5 w-5 text-primary animate-pulse" />
