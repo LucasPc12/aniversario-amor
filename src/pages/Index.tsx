@@ -9,6 +9,7 @@ import foto3 from "@/assets/foto3.jpg";
 import foto4 from "@/assets/foto4.jpg";
 import foto5 from "@/assets/foto5.jpg";
 import foto6 from "@/assets/foto6.jpg";
+import lisboaMusic from "@/assets/lisboa.mp3";
 
 const Index = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -113,7 +114,7 @@ const Index = () => {
 
       <audio
         ref={audioRef}
-        src="https://drive.google.com/uc?export=download&id=1wchJpXWwaPvQChZ3J2C0HwIoH25utbtM"
+        src={lisboaMusic}
         loop
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
