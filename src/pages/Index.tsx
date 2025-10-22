@@ -113,7 +113,7 @@ const Index = () => {
 
       <audio
         ref={audioRef}
-        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        src="https://drive.google.com/uc?export=download&id=1wchJpXWwaPvQChZ3J2C0HwIoH25utbtM"
         loop
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
@@ -123,11 +123,11 @@ const Index = () => {
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
           {/* Photo */}
-          <div className="relative w-64 h-64 mx-auto mb-8 rounded-full overflow-hidden shadow-romantic border-4 border-primary/20">
+          <div className="relative w-72 h-72 mx-auto mb-8 rounded-full overflow-hidden shadow-romantic border-4 border-primary/20">
             <img 
               src={fotoPrincipal} 
               alt="Minha princesa" 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
             />
           </div>
 
@@ -196,7 +196,7 @@ const Index = () => {
             Nossos Momentos
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {photos.map((photo, i) => (
               <Card
                 key={i}
@@ -205,7 +205,8 @@ const Index = () => {
                 <img 
                   src={photo} 
                   alt={`Nosso momento ${i + 1}`} 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
+                  loading="lazy"
                 />
               </Card>
             ))}

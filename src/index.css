@@ -113,6 +113,11 @@ All colors MUST be HSL.
   h1, h2, h3 {
     font-family: 'Playfair Display', Georgia, serif;
   }
+
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
 }
 
 @layer utilities {
