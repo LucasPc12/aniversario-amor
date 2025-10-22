@@ -24,31 +24,34 @@ const Index = () => {
       setShowMessage(true);
     }, 1000);
 
-    // Try to autoplay music
-    const playMusic = async () => {
-      if (audioRef.current) {
-        try {
-          await audioRef.current.play();
-          setIsPlaying(true);
-        } catch (error) {
-          console.log('Autoplay prevented. User needs to click play.');
-        }
-      }
-    };
-    
-    playMusic();
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    return () => clearTimeout(timer);
+    // Sync playing state with audio element
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+
+    return () => {
+      clearTimeout(timer);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+    };
   }, []);
 
-  const toggleMusic = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
+  const toggleMusic = async () => {
+    if (!audioRef.current) return;
+    
+    try {
+      if (audioRef.current.paused) {
+        await audioRef.current.play();
       } else {
-        audioRef.current.play();
+        audioRef.current.pause();
       }
-      setIsPlaying(!isPlaying);
+    } catch (error) {
+      console.log('Error toggling music:', error);
     }
   };
 
