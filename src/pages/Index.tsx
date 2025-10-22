@@ -2,10 +2,19 @@ import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Music, Pause, Play, Heart } from "lucide-react";
+import fotoPrincipal from "@/assets/foto-principal.jpg";
+import foto1 from "@/assets/foto1.jpg";
+import foto2 from "@/assets/foto2.jpg";
+import foto3 from "@/assets/foto3.jpg";
+import foto4 from "@/assets/foto4.jpg";
+import foto5 from "@/assets/foto5.jpg";
+import foto6 from "@/assets/foto6.jpg";
 
 const Index = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -28,42 +37,98 @@ const Index = () => {
     }
   };
 
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const time = parseFloat(e.target.value);
+    if (audioRef.current) {
+      audioRef.current.currentTime = time;
+      setCurrentTime(time);
+    }
+  };
+
+  const photos = [foto1, foto2, foto3, foto4, foto5, foto6];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary">
       {/* Music Player */}
-      <div className="fixed top-6 right-6 z-50">
-        <Button
-          onClick={toggleMusic}
-          size="lg"
-          className="rounded-full shadow-lg hover:scale-110 transition-transform"
-          variant="default"
-        >
-          {isPlaying ? (
-            <Pause className="h-5 w-5 mr-2" />
-          ) : (
-            <Play className="h-5 w-5 mr-2" />
-          )}
-          <Music className="h-5 w-5" />
-        </Button>
+      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+        <Card className="p-4 bg-card/95 backdrop-blur-md shadow-romantic border-2 border-primary/20">
+          <div className="flex flex-col space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button
+                  onClick={toggleMusic}
+                  size="icon"
+                  className="rounded-full h-12 w-12 shadow-lg"
+                  variant="default"
+                >
+                  {isPlaying ? (
+                    <Pause className="h-5 w-5" />
+                  ) : (
+                    <Play className="h-5 w-5" />
+                  )}
+                </Button>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Lisboa</p>
+                  <p className="text-xs text-muted-foreground">Música Especial</p>
+                </div>
+              </div>
+              <Music className="h-5 w-5 text-primary animate-pulse" />
+            </div>
+            
+            <div className="space-y-1">
+              <input
+                type="range"
+                min="0"
+                max={duration || 0}
+                value={currentTime}
+                onChange={handleSeek}
+                className="w-full h-1 bg-muted rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
+              />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <audio
         ref={audioRef}
         src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
         loop
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
       />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
-          {/* Photo Placeholder */}
+          {/* Photo */}
           <div className="relative w-64 h-64 mx-auto mb-8 rounded-full overflow-hidden shadow-romantic border-4 border-primary/20">
-            <div className="w-full h-full bg-gradient-romantic flex items-center justify-center">
-              <Heart className="w-24 h-24 text-primary/40 animate-pulse" />
-              <p className="absolute bottom-4 text-sm text-muted-foreground">
-                [Adicione sua foto aqui]
-              </p>
-            </div>
+            <img 
+              src={fotoPrincipal} 
+              alt="Minha princesa" 
+              className="w-full h-full object-cover"
+            />
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold text-primary mb-4 tracking-tight">
@@ -87,7 +152,7 @@ const Index = () => {
           <Card className="p-8 md:p-12 shadow-romantic bg-card/80 backdrop-blur-sm border-2 border-primary/10">
             <div className="space-y-6 text-lg md:text-xl leading-relaxed text-foreground">
               <p>
-                E eu queria agradecer por cada sorriso seu, cada abraço apertado,
+                Eu queria agradecer por cada sorriso seu, cada abraço apertado,
                 cada momento que me faz sentir que estou exatamente onde deveria
                 estar (do seu lado).
               </p>
@@ -132,19 +197,16 @@ const Index = () => {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
+            {photos.map((photo, i) => (
               <Card
                 key={i}
                 className="aspect-square overflow-hidden shadow-romantic hover:scale-105 transition-transform duration-300 border-2 border-primary/10"
               >
-                <div className="w-full h-full bg-gradient-romantic flex items-center justify-center">
-                  <div className="text-center">
-                    <Heart className="w-16 h-16 text-primary/40 mx-auto mb-2" />
-                    <p className="text-sm text-muted-foreground">
-                      Foto {i}
-                    </p>
-                  </div>
-                </div>
+                <img 
+                  src={photo} 
+                  alt={`Nosso momento ${i + 1}`} 
+                  className="w-full h-full object-cover"
+                />
               </Card>
             ))}
           </div>
