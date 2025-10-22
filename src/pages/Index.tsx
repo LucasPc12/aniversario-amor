@@ -34,6 +34,17 @@ const Index = () => {
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
 
+    // Try to autoplay
+    const tryAutoplay = async () => {
+      try {
+        await audio.play();
+      } catch (error) {
+        console.log('Clique no botão play para iniciar a música');
+      }
+    };
+    
+    tryAutoplay();
+
     return () => {
       clearTimeout(timer);
       audio.removeEventListener('play', handlePlay);
