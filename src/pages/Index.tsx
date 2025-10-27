@@ -202,7 +202,7 @@ const Index = () => {
               </p>
 
               <p className="font-semibold text-primary text-2xl pt-4">
-                Feliz 20 anos, meu amor. Te amo muito muito muito muito muito.
+                Feliz 20 anos, meu amor. Eu te amo muito muito muito muito muito.
               </p>
 
               <p className="italic text-muted-foreground">
